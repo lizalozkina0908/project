@@ -6,4 +6,5 @@
 - Описание проекта: Веб-ресурс помогает в подготовке к истории.
 # Реализация проекта: 
 - 16.02 - начала осваивать css код
--ссылка на макет: https://www.figma.com/design/GBsGMwwmR2u1blPKPctwsr/BrandName?node-id=2636-2600&t=KoLQtItbIlTZf7Kb-0
+- ссылка на макет: https://www.figma.com/design/GBsGMwwmR2u1blPKPctwsr/BrandName?node-id=2636-2600&t=KoLQtItbIlTZf7Kb-0
+- 16.02 - скачивала картинки с интренета
