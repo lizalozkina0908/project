@@ -5,15 +5,44 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>project</title>
+    <link rel="stylesheet" href="styles/normalize.css">
+    <link rel="stylesheet" href="styles/style.css">
 </head>
 
 <body>
-    <header>
-
+    <header class="header container">
+        <img src="images/logo.jpg" alt="logo" width="80">
+        <div class="container">
+            <nav class="header__menu">
+                <ul class="menu__list menu">
+                    <li class="menu__item"><a class="menu-button" href="#" style="color: black; font-size: 25px;">Век
+                            познания</a></li>
+                    <li class="menu__item"><a class="menu-button" href="#">Для кого</a></li>
+                    <li class="menu__item"><a class="menu-button" href="#">Как проходят уроки</a></li>
+                    <li class="menu__item"><a class="menu-button" href="#">Преподаватели</a></li>
+                    <li class="menu__item"><a class="menu-button" href="#">Цены</a></li>
+                    <li class="menu__item"><a class="menu-button" href="#">Контакты</a></li>
+                </ul>
+            </nav>
+        </div>
     </header>
     <main class="main">
-        <section>
-
+        <section class="beginning">
+            <div class="beginning__container">
+                <div class="beginning__wrap">
+                    <div class="beginning__wrap__left">
+                        <h1 class="beginning__tittle">Более 25 тысяч студентов доверяют нам</h1>
+                        <p class="beginning__text">Наша цель - сделать онлайн курсы по истории доступными для всех.
+                            <br>Даём знания сегодня для уверенного будущего завтра.
+                        </p>
+                    </div>
+                    <div class="beginning__button__container">
+                        <button class="beginning__button">Записаться на курс</button>
+                        <button class="beginning__button__right">Узнать подробнее</button>
+                    </div>
+                </div>
+                <img class="beginning__image" src="images/rim.png" alt="rim" width="550">
+            </div>
         </section>
         <section>
 
@@ -28,7 +57,6 @@
         </section>
     </main>
     <footer class="footer">
-        <img src="images/logo.jpg" alt="logo" width="100" height="100">
         <p></p>
         <ul class="footer__list">
             <li class="footer__item"><a href="#">О нас</a>
