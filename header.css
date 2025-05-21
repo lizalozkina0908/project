@@ -1,0 +1,53 @@
+/* Стили для header */
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 0;
+}
+
+.header__logo-container {
+    display: flex;
+    align-items: center;
+}
+
+.header__logo {
+    margin-right: 10px;
+}
+
+.header__title {
+    font-weight: bold;
+    text-decoration: none;
+}
+
+.header__menu {
+    display: flex;
+    justify-content: center;
+    flex-grow: 1;
+}
+
+.menu__list {
+    display: flex;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    font-size: 15px;
+}
+
+.menu__item {
+    margin: 0 15px;
+}
+
+.menu__link {
+    text-decoration: none;
+    color: inherit;
+}
+
+.auth__button {
+    background: #2E7D32;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+}
