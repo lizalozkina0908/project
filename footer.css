@@ -1,0 +1,155 @@
+.footer {
+  background: #2E7D32;
+  color: white;
+  padding: 50px 0 20px;
+  font-family: 'Montserrat', sans-serif;
+  position: relative;
+  border-top: 2px solid #ccc;
+  display: flex;           /* добавил для центрирования */
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;  /* чтобы контент внутри был по вертикали */
+}
+
+.footer__container {
+  max-width: 1200px;
+  width: 100%;
+  margin: 0 auto;
+  padding: 10px 20px;
+}
+
+.footer__content {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 40px;
+  margin-bottom: 40px;
+  width: 100%;
+}
+
+.footer__logo img {
+  border-radius: 50%;
+  margin-bottom: 15px;
+  max-width: 100px;
+  height: auto;
+}
+
+.footer__slogan {
+  font-size: 18px;
+  font-weight: 500;
+  opacity: 0.9;
+}
+
+.footer__title {
+  font-size: 20px;
+  margin-bottom: 20px;
+  position: relative;
+  padding-bottom: 10px;
+}
+
+.footer__title::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 50px;
+  height: 2px;
+  background: white;
+}
+
+.contact-item {
+  display: flex;
+  align-items: center;
+  margin-bottom: 15px;
+}
+
+.contact-icon {
+  margin-right: 10px;
+  filter: brightness(0) invert(1);
+  width: 20px;
+  height: 20px;
+}
+
+.footer__social {
+  display: flex;
+  gap: 15px;
+  margin-top: 20px;
+}
+
+.social-link img {
+  transition: transform 0.3s;
+  width: 24px;
+  height: 24px;
+}
+
+.social-link:hover img {
+  transform: translateY(-3px);
+}
+
+.footer__menu {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.footer__menu li {
+  margin-bottom: 12px;
+}
+
+.footer__menu a {
+  color: white;
+  text-decoration: none;
+  opacity: 0.8;
+  transition: opacity 0.3s;
+}
+
+.footer__menu a:hover {
+  opacity: 1;
+  text-decoration: underline;
+}
+
+.footer__bottom {
+  border-top: 1px solid rgba(255,255,255,0.1);
+  padding-top: 20px;
+  text-align: center;
+  width: 100%;
+}
+
+.footer__copyright {
+  font-size: 14px;
+  opacity: 0.7;
+}
+
+/* --- Адаптив --- */
+@media (max-width: 768px) {
+  .footer__content {
+    grid-template-columns: 1fr;
+    gap: 30px;
+  }
+  
+  .footer__title {
+    margin-bottom: 15px;
+    font-size: 18px;
+  }
+  
+  .footer__logo img {
+    max-width: 80px;
+  }
+
+  .footer__slogan {
+    font-size: 16px;
+  }
+
+  .contact-icon {
+    width: 18px;
+    height: 18px;
+  }
+
+  .social-link img {
+    width: 20px;
+    height: 20px;
+  }
+
+  .footer__menu li {
+    margin-bottom: 10px;
+  }
+}
