@@ -48,6 +48,17 @@
             <img class="beginning__image" src="images/rim.png" alt="rim" width="550">
         </div>
     </section>
+
+    <!-- Попап (изначально скрыт) -->
+<div id="popup" class="popup">
+  <div class="popup__content">
+    <p>Это дополнительная информация о курсе.</p>
+    <button id="closePopup" class="popup__close">Закрыть</button>
+  </div>
+</div>
+
+
+
     <!-- Блок target-audience (Целевая аудитория) -->
     <section class="target-audience">
         <div class="target-audience__container container">
@@ -252,11 +263,12 @@
     </section>
 
     <section class="reviews">
-        <div class="reviews__container">
-            <h2 class="reviews__title">Отзывы наших учеников</h2>
-            <p class="reviews__subtitle">Результаты, которыми мы гордимся</p>
+    <div class="reviews__container">
+        <h2 class="reviews__title">Отзывы наших учеников</h2>
+        <p class="reviews__subtitle">Результаты, которыми мы гордимся</p>
 
-            <div class="reviews__grid">
+        <div class="reviews__slider">
+            <div class="reviews__track">
                 <!-- Отзыв 1 -->
                 <div class="review-card">
                     <div class="review-card__header">
@@ -307,13 +319,51 @@
                         <span class="review-card__exam">ЕГЭ по истории</span>
                     </div>
                 </div>
-            </div>
 
-            <div class="reviews__controls">
-                <button class="reviews__button">Все отзывы</button>
+                <!-- Отзыв 4 -->
+                <div class="review-card">
+                    <div class="review-card__header">
+                        <div class="review-card__info">
+                            <h3 class="review-card__name">Анна С.</h3>
+                            <div class="review-card__rating">★★★★★</div>
+                        </div>
+                    </div>
+                    <div class="review-card__content">
+                        <p>Поступила в СПбГУ на бюджет! Ваши курсы помогли систематизировать знания и отработать сложные задания. Очень благодарна!</p>
+                    </div>
+                    <div class="review-card__footer">
+                        <span class="review-card__date">15 августа 2023</span>
+                        <span class="review-card__exam">ЕГЭ по Истории</span>
+                    </div>
+                </div>
+
+                <!-- Отзыв 5 -->
+                <div class="review-card">
+                    <div class="review-card__header">
+                        <div class="review-card__info">
+                            <h3 class="review-card__name">Софья Р.</h3>
+                            <div class="review-card__rating">★★★★★</div>
+                        </div>
+                    </div>
+                    <div class="review-card__content">
+                        <p>Сдала ОГЭ по истории на максимальный балл! Ваши материалы по работе с картами и датами были просто спасительными. Теперь уверенно готовлюсь к ЕГЭ.</p>
+                    </div>
+                    <div class="review-card__footer">
+                        <span class="review-card__date">15 июня 2023</span>
+                        <span class="review-card__exam">ОГЭ по истории</span>
+                    </div>
+                </div>
             </div>
         </div>
-    </section>
+
+        <!-- Кнопки управления -->
+        <div class="reviews__slider-controls">
+            <button id="prevBtn" class="slider-btn">←</button>
+            <button id="nextBtn" class="slider-btn">→</button>
+        </div>
+    </div>
+</section>
+    
 </main>
 
   <footer class="footer">
@@ -370,6 +420,8 @@
         
     
 <script src="scripts/script.js"></script>
+
+
 
 </body>
 
