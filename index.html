@@ -25,9 +25,60 @@
                 <li class="menu__item"><a class="menu__link" href="#">Контакты</a></li>
             </ul>
         </nav>
-        <div class="header__auth">
-            <button class="auth__button">Вход / Регистрация</button>
+        
+         <button id="authBtn" class="auth-btn">Вход / Регистрация</button>
+
+    <div class="popup" id="authPopup">
+        <div class="popup-content">
+            <span class="close-btn">&times;</span>
+            
+            <div class="tabs">
+                <button class="tab active" data-tab="login">Вход</button>
+                <button class="tab" data-tab="register">Регистрация</button>
+            </div>
+            
+            <div class="tab-content active" id="login">
+                <h2>Вход</h2>
+                <form id="loginForm">
+                    <div class="input-group">
+                        <input type="email" id="loginEmail" placeholder="Email" required>
+                        <span class="error-message" id="loginEmailError"></span>
+                    </div>
+                    <div class="input-group">
+                        <input type="password" id="loginPassword" placeholder="Пароль" required>
+                        <span class="error-message" id="loginPasswordError"></span>
+                    </div>
+                    <button type="submit">Войти</button>
+                </form>
+            </div>
+            
+            <div class="tab-content" id="register">
+                <h2>Регистрация</h2>
+                <form id="registerForm">
+                    <div class="input-group">
+                        <input type="text" id="registerName" placeholder="Имя" required>
+                        <span class="error-message" id="registerNameError"></span>
+                    </div>
+                    <div class="input-group">
+                        <input type="email" id="registerEmail" placeholder="Email" required>
+                        <span class="error-message" id="registerEmailError"></span>
+                    </div>
+                    <div class="input-group">
+                        <input type="password" id="registerPassword" placeholder="Пароль" required>
+                        <span class="error-message" id="registerPasswordError"></span>
+                    </div>
+                    <div class="input-group">
+                        <input type="password" id="registerConfirmPassword" placeholder="Повторите пароль" required>
+                        <span class="error-message" id="registerConfirmPasswordError"></span>
+                    </div>
+                    <button type="submit">Зарегистрироваться</button>
+                </form>
+            </div>
         </div>
+    </div>
+    
+        
+        
     </header>
 
     <main class="main">
