@@ -1,223 +1,271 @@
+// Основной модуль приложения
+const App = (function() {
+  // Данные преподавателей
+  const teachersData = [
+    {
+      name: 'Преподаватель 1',
+      specialization: 'подготовка к ОГЭ',
+      photo: 'images/boy.jpg'
+    },
+    {
+      name: 'Преподаватель 2',
+      specialization: 'подготовка к ЕГЭ',
+      photo: 'images/boy2.png'
+    },
+    {
+      name: 'Преподаватель 3',
+      specialization: 'ОГЭ и ЕГЭ',
+      photo: 'images/boy4.png'
+    },
+    {
+      name: 'Преподаватель 4',
+      specialization: 'Эксперт ЕГЭ',
+      photo: 'images/boys3.png'
+    },
+    {
+      name: 'Преподаватель 5',
+      specialization: 'Эксперт ОГЭ',
+      photo: 'images/girl.png'
+    },
+    {
+      name: 'Преподаватель 6',
+      specialization: 'углубленная подготовка',
+      photo: 'images/girl2.png'
+    }
+  ];
 
-// Проверка подключения 
-console.log("Скрипт успешно подключен!");
-
-// Глобальные переменные
-const learnMoreBtn = document.querySelector('.beginning__button__right');
-const signupBtn = document.querySelector('.beginning__button');
-const popup = document.getElementById('popup');
-const closeBtn = document.getElementById('closePopup');
-const overlay = document.querySelector('.popup__overlay');
-
-// Обработчики для главных кнопок
-document.addEventListener('DOMContentLoaded', () => {
-  // Обработчик для кнопки "Записаться"
-  if (signupBtn) {
-    signupBtn.addEventListener('click', () => {
-      console.log("Кнопка 'Записаться' нажата!");
-    });
+  // Инициализация всех компонентов
+  function init() {
+    renderTeachers();
+    initMainButtons();
+    initReviewSlider();
+    initAuthPopup();
   }
 
-  // Обработчик для кнопки "Подробнее"
-  if (learnMoreBtn) {
-    learnMoreBtn.addEventListener('click', handleLearnMoreClick);
-  }
-});
-
-// Логика попапа
-
-// Функция обработки клика по кнопке "Подробнее"
-function handleLearnMoreClick(e) {
-  e.preventDefault();
-  popup.style.display = 'flex';
-  document.body.style.overflow = 'hidden'; // Блокируем скролл страницы
-  console.log('Попап открыт');
-}
-
-// Закрытие попапа по крестику
-if (closeBtn) {
-  closeBtn.addEventListener('click', closePopup);
-}
-
-// Закрытие попапа по клику вне окна
-if (overlay) {
-  overlay.addEventListener('click', closePopup);
-}
-
-// Функция закрытия попапа
-function closePopup() {
-  popup.style.display = 'none';
-  document.body.style.overflow = ''; // Восстанавливаем скролл
-  console.log('Попап закрыт');
-}
-
-//  Слайдер отзывов 
-
-// Инициализация слайдера при загрузке страницы
-document.addEventListener('DOMContentLoaded', initReviewSlider);
-
-function initReviewSlider() {
-  const track = document.querySelector('.reviews__track');
-  const prevBtn = document.getElementById('prevBtn');
-  const nextBtn = document.getElementById('nextBtn');
-  const cards = document.querySelectorAll('.review-card');
-  const container = document.querySelector('.reviews__slider');
-  
-  if (!track || !prevBtn || !nextBtn || !cards.length || !container) {
-    console.warn('Не найдены элементы слайдера');
-    return;
-  }
-
-  let currentIndex = 0;
-  let cardsToShow = getCardsToShowCount();
-
-  // Основные функции слайдера
-  function updateDimensions() {
-    const containerWidth = container.offsetWidth;
-    const cardWidth = containerWidth / cardsToShow - 30;
+  // 1. Рендеринг преподавателей с использованием forEach
+  function renderTeachers() {
+    const teachersContainer = document.querySelector('.prepods-list');
     
-    cards.forEach(card => {
-      card.style.width = `${cardWidth}px`;
-    });
+    if (!teachersContainer) {
+      console.warn('Контейнер преподавателей не найден');
+      return;
+    }
+
+    // Очищаем контейнер перед добавлением новых элементов
+    teachersContainer.innerHTML = '';
     
-    updateTrackPosition();
+    // Используем forEach для перебора массива
+    teachersData.forEach((teacher) => {
+      const teacherElement = document.createElement('div');
+      teacherElement.className = 'prepod';
+      
+      teacherElement.innerHTML = `
+        <img class="prepod-photo" src="${teacher.photo}" width="214" height="214" alt="${teacher.name}">
+        <div class="prepod-info">
+          <h3 class="prepod-name">${teacher.name}</h3>
+          <p class="prepod-desc">Специализация: ${teacher.specialization}</p>
+        </div>
+      `;
+      
+      teachersContainer.appendChild(teacherElement);
+    });
+
+    console.log('Преподаватели успешно отображены');
   }
 
-  function updateTrackPosition() {
-    const containerWidth = container.offsetWidth;
-    track.style.transform = `translateX(-${currentIndex * (containerWidth / cardsToShow)}px)`;
-    updateButtons();
+  // 2. Главные кнопки и попап "Подробнее"
+  function initMainButtons() {
+    const learnMoreBtn = document.querySelector('.beginning__button__right');
+    const signupBtn = document.querySelector('.beginning__button');
+    const popup = document.getElementById('popup');
+    const closeBtn = document.getElementById('closePopup');
+    const overlay = document.querySelector('.popup__overlay');
+
+    if (signupBtn) {
+      signupBtn.addEventListener('click', () => {
+        console.log("Кнопка 'Записаться' нажата!");
+      });
+    }
+
+    if (learnMoreBtn && popup) {
+      learnMoreBtn.addEventListener('click', (e) => {
+        e.preventDefault();
+        popup.style.display = 'flex';
+        document.body.style.overflow = 'hidden';
+        console.log('Попап открыт');
+      });
+    }
+
+    if (closeBtn && popup) {
+      closeBtn.addEventListener('click', () => closePopup(popup));
+    }
+
+    if (overlay && popup) {
+      overlay.addEventListener('click', () => closePopup(popup));
+    }
+
+    function closePopup(popupElement) {
+      popupElement.style.display = 'none';
+      document.body.style.overflow = '';
+      console.log('Попап закрыт');
+    }
   }
 
-  function updateButtons() {
-    prevBtn.disabled = currentIndex === 0;
-    nextBtn.disabled = currentIndex >= cards.length - cardsToShow;
-    console.log(`Слайдер: текущая позиция ${currentIndex}, кнопки prev: ${prevBtn.disabled}, next: ${nextBtn.disabled}`);
-  }
+  // 3. Слайдер отзывов
+  function initReviewSlider() {
+    const track = document.querySelector('.reviews__track');
+    const prevBtn = document.getElementById('prevBtn');
+    const nextBtn = document.getElementById('nextBtn');
+    const cards = document.querySelectorAll('.review-card');
+    const container = document.querySelector('.reviews__slider');
+    
+    if (!track || !prevBtn || !nextBtn || !cards.length || !container) {
+      console.warn('Не найдены элементы слайдера');
+      return;
+    }
 
-  function getCardsToShowCount() {
-    if (window.innerWidth < 768) return 1;
-    if (window.innerWidth < 992) return 2;
-    return 3;
-  }
+    let currentIndex = 0;
+    let cardsToShow = getCardsToShowCount();
 
-  // Обработчики событий
-  nextBtn.addEventListener('click', () => {
-    if (currentIndex < cards.length - cardsToShow) {
-      currentIndex++;
+    function updateDimensions() {
+      const containerWidth = container.offsetWidth;
+      const cardWidth = containerWidth / cardsToShow - 30;
+      
+      cards.forEach(card => {
+        card.style.width = `${cardWidth}px`;
+      });
+      
       updateTrackPosition();
     }
-  });
 
-  prevBtn.addEventListener('click', () => {
-    if (currentIndex > 0) {
-      currentIndex--;
-      updateTrackPosition();
+    function updateTrackPosition() {
+      const containerWidth = container.offsetWidth;
+      track.style.transform = `translateX(-${currentIndex * (containerWidth / cardsToShow)}px)`;
+      updateButtons();
     }
-  });
 
-  window.addEventListener('resize', () => {
-    cardsToShow = getCardsToShowCount();
+    function updateButtons() {
+      prevBtn.disabled = currentIndex === 0;
+      nextBtn.disabled = currentIndex >= cards.length - cardsToShow;
+      console.log(`Слайдер: текущая позиция ${currentIndex}, кнопки prev: ${!prevBtn.disabled}, next: ${!nextBtn.disabled}`);
+    }
+
+    function getCardsToShowCount() {
+      if (window.innerWidth < 768) return 1;
+      if (window.innerWidth < 992) return 2;
+      return 3;
+    }
+
+    nextBtn.addEventListener('click', () => {
+      if (currentIndex < cards.length - cardsToShow) {
+        currentIndex++;
+        updateTrackPosition();
+      }
+    });
+
+    prevBtn.addEventListener('click', () => {
+      if (currentIndex > 0) {
+        currentIndex--;
+        updateTrackPosition();
+      }
+    });
+
+    window.addEventListener('resize', () => {
+      cardsToShow = getCardsToShowCount();
+      updateDimensions();
+    });
+
     updateDimensions();
-  });
+  }
 
-  // Инициализация
-  updateDimensions();
-}
-
-//  Дополнительные обработчики 
-// Пример дополнительного слушателя для демонстрации
-document.querySelectorAll('.review-card').forEach((card, index) => {
-  card.addEventListener('mouseover', () => {
-    console.log(`Наведение на карточку отзыва #${index + 1}`);
-  });
-});
-
-
-document.addEventListener('DOMContentLoaded', function() {
-    // Элементы DOM
+  // 4. Форма авторизации
+  function initAuthPopup() {
     const authBtn = document.getElementById('authBtn');
     const authPopup = document.getElementById('authPopup');
-    const closeBtn = document.querySelector('.close-btn');
-    const tabs = document.querySelectorAll('.tab');
-    const tabContents = document.querySelectorAll('.tab-content');
+    
+    if (!authBtn || !authPopup) {
+      console.warn('Элементы формы авторизации не найдены');
+      return;
+    }
+
+    const closeBtn = authPopup.querySelector('.close-btn');
+    const tabs = authPopup.querySelectorAll('.tab');
+    const tabContents = authPopup.querySelectorAll('.tab-content');
     const loginForm = document.getElementById('loginForm');
     const registerForm = document.getElementById('registerForm');
 
-    // Пользовательские данные (имитация базы данных)
     let users = JSON.parse(localStorage.getItem('users')) || [
-        { name: "Админ", email: "admin@test.com", password: "admin123" }
+      { name: "Админ", email: "admin@test.com", password: "admin123" }
     ];
 
-    // Функции валидации
     function validateEmail(email) {
-        const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-        return re.test(email);
+      const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      return re.test(email);
     }
 
     function validatePassword(password) {
-        return password.length >= 6;
+      return password.length >= 6;
     }
 
     function showError(element, message) {
-        element.textContent = message;
-        element.style.display = 'block';
+      if (!element) return;
+      element.textContent = message;
+      element.style.display = 'block';
     }
 
     function hideError(element) {
-        element.textContent = '';
-        element.style.display = 'none';
+      if (!element) return;
+      element.textContent = '';
+      element.style.display = 'none';
     }
 
-    // Управление попапом
-    function openPopup() {
-        authPopup.style.display = 'flex';
-        document.body.style.overflow = 'hidden';
+    function openAuthPopup() {
+      authPopup.style.display = 'flex';
+      document.body.style.overflow = 'hidden';
     }
 
-    function closePopup() {
-        authPopup.style.display = 'none';
-        document.body.style.overflow = 'auto';
-        
-        // Сброс форм при закрытии
-        loginForm.reset();
-        registerForm.reset();
-        
-        // Скрытие сообщений об ошибках
-        document.querySelectorAll('.error-message').forEach(el => {
-            hideError(el);
-        });
+    function closeAuthPopup() {
+      authPopup.style.display = 'none';
+      document.body.style.overflow = '';
+      
+      if (loginForm) loginForm.reset();
+      if (registerForm) registerForm.reset();
+      
+      document.querySelectorAll('.error-message').forEach(el => {
+        hideError(el);
+      });
     }
 
-    // Переключение вкладок
     function switchTab(tabId) {
-        tabs.forEach(tab => {
-            tab.classList.toggle('active', tab.dataset.tab === tabId);
-        });
-        
-        tabContents.forEach(content => {
-            content.classList.toggle('active', content.id === tabId);
-        });
+      tabs.forEach(tab => {
+        tab.classList.toggle('active', tab.dataset.tab === tabId);
+      });
+      
+      tabContents.forEach(content => {
+        content.classList.toggle('active', content.id === tabId);
+      });
     }
 
-    // Обработчики событий
-    authBtn.addEventListener('click', openPopup);
-    closeBtn.addEventListener('click', closePopup);
+    authBtn.addEventListener('click', openAuthPopup);
+    
+    if (closeBtn) {
+      closeBtn.addEventListener('click', closeAuthPopup);
+    }
 
     authPopup.addEventListener('click', function(e) {
-        if (e.target === authPopup) {
-            closePopup();
-        }
+      if (e.target === authPopup) {
+        closeAuthPopup();
+      }
     });
 
     tabs.forEach(tab => {
-        tab.addEventListener('click', function() {
-            switchTab(this.dataset.tab);
-        });
+      tab.addEventListener('click', function() {
+        switchTab(this.dataset.tab);
+      });
     });
 
-    // Обработка формы входа
-    loginForm.addEventListener('submit', function(e) {
+    if (loginForm) {
+      loginForm.addEventListener('submit', function(e) {
         e.preventDefault();
         
         const email = document.getElementById('loginEmail').value;
@@ -227,37 +275,35 @@ document.addEventListener('DOMContentLoaded', function() {
         
         let isValid = true;
         
-        // Валидация email
         if (!validateEmail(email)) {
-            showError(emailError, "Введите корректный email");
-            isValid = false;
+          showError(emailError, "Введите корректный email");
+          isValid = false;
         } else {
-            hideError(emailError);
+          hideError(emailError);
         }
         
-        // Валидация пароля
         if (!validatePassword(password)) {
-            showError(passwordError, "Пароль должен содержать минимум 6 символов");
-            isValid = false;
+          showError(passwordError, "Пароль должен содержать минимум 6 символов");
+          isValid = false;
         } else {
-            hideError(passwordError);
+          hideError(passwordError);
         }
         
         if (isValid) {
-            // Проверка существования пользователя
-            const user = users.find(u => u.email === email && u.password === password);
-            
-            if (user) {
-                alert(`Добро пожаловать, ${user.name}!`);
-                closePopup();
-            } else {
-                showError(passwordError, "Неверный email или пароль");
-            }
+          const user = users.find(u => u.email === email && u.password === password);
+          
+          if (user) {
+            alert(`Добро пожаловать, ${user.name}!`);
+            closeAuthPopup();
+          } else {
+            showError(passwordError, "Неверный email или пароль");
+          }
         }
-    });
+      });
+    }
 
-    // Обработка формы регистрации
-    registerForm.addEventListener('submit', function(e) {
+    if (registerForm) {
+      registerForm.addEventListener('submit', function(e) {
         e.preventDefault();
         
         const name = document.getElementById('registerName').value;
@@ -272,50 +318,55 @@ document.addEventListener('DOMContentLoaded', function() {
         
         let isValid = true;
         
-        // Валидация имени
         if (name.length < 2) {
-            showError(nameError, "Имя должно содержать минимум 2 символа");
-            isValid = false;
+          showError(nameError, "Имя должно содержать минимум 2 символа");
+          isValid = false;
         } else {
-            hideError(nameError);
+          hideError(nameError);
         }
         
-        // Валидация email
         if (!validateEmail(email)) {
-            showError(emailError, "Введите корректный email");
-            isValid = false;
+          showError(emailError, "Введите корректный email");
+          isValid = false;
         } else if (users.some(u => u.email === email)) {
-            showError(emailError, "Пользователь с таким email уже существует");
-            isValid = false;
+          showError(emailError, "Пользователь с таким email уже существует");
+          isValid = false;
         } else {
-            hideError(emailError);
+          hideError(emailError);
         }
         
-        // Валидация пароля
         if (!validatePassword(password)) {
-            showError(passwordError, "Пароль должен содержать минимум 6 символов");
-            isValid = false;
+          showError(passwordError, "Пароль должен содержать минимум 6 символов");
+          isValid = false;
         } else {
-            hideError(passwordError);
+          hideError(passwordError);
         }
         
-        // Проверка совпадения паролей
         if (password !== confirmPassword) {
-            showError(confirmPasswordError, "Пароли не совпадают");
-            isValid = false;
+          showError(confirmPasswordError, "Пароли не совпадают");
+          isValid = false;
         } else {
-            hideError(confirmPasswordError);
+          hideError(confirmPasswordError);
         }
         
         if (isValid) {
-            // Добавление нового пользователя
-            const newUser = { name, email, password };
-            users.push(newUser);
-            localStorage.setItem('users', JSON.stringify(users));
-            
-            alert(`Регистрация успешна, ${name}! Теперь вы можете войти.`);
-            switchTab('login');
-            registerForm.reset();
+          const newUser = { name, email, password };
+          users.push(newUser);
+          localStorage.setItem('users', JSON.stringify(users));
+          
+          alert(`Регистрация успешна, ${name}! Теперь вы можете войти.`);
+          switchTab('login');
+          registerForm.reset();
         }
-    });
-});
+      });
+    }
+  }
+
+  // Публичные методы
+  return {
+    init: init
+  };
+})();
+
+// Запуск приложения при загрузке страницы
+document.addEventListener('DOMContentLoaded', App.init);
