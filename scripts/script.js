@@ -42,23 +42,23 @@ const App = (function() {
     initAuthPopup();
   }
 
-  // 1. Рендеринг преподавателей с использованием forEach
+  // 1. Рендеринг преподавателей с использованием for...in
   function renderTeachers() {
     const teachersContainer = document.querySelector('.prepods-list');
-    
+
     if (!teachersContainer) {
       console.warn('Контейнер преподавателей не найден');
       return;
     }
 
-    // Очищаем контейнер перед добавлением новых элементов
     teachersContainer.innerHTML = '';
-    
-    // Используем forEach для перебора массива
-    teachersData.forEach((teacher) => {
+
+    // Используем for...in для перебора данных преподавателей
+    for (const index in teachersData) {
+      const teacher = teachersData[index];
       const teacherElement = document.createElement('div');
       teacherElement.className = 'prepod';
-      
+
       teacherElement.innerHTML = `
         <img class="prepod-photo" src="${teacher.photo}" width="214" height="214" alt="${teacher.name}">
         <div class="prepod-info">
@@ -66,11 +66,11 @@ const App = (function() {
           <p class="prepod-desc">Специализация: ${teacher.specialization}</p>
         </div>
       `;
-      
-      teachersContainer.appendChild(teacherElement);
-    });
 
-    console.log('Преподаватели успешно отображены');
+      teachersContainer.appendChild(teacherElement);
+    }
+
+    console.log('Преподаватели успешно отображены (использован for...in)');
   }
 
   // 2. Главные кнопки и попап "Подробнее"
@@ -118,7 +118,7 @@ const App = (function() {
     const nextBtn = document.getElementById('nextBtn');
     const cards = document.querySelectorAll('.review-card');
     const container = document.querySelector('.reviews__slider');
-    
+
     if (!track || !prevBtn || !nextBtn || !cards.length || !container) {
       console.warn('Не найдены элементы слайдера');
       return;
@@ -130,11 +130,11 @@ const App = (function() {
     function updateDimensions() {
       const containerWidth = container.offsetWidth;
       const cardWidth = containerWidth / cardsToShow - 30;
-      
+
       cards.forEach(card => {
         card.style.width = `${cardWidth}px`;
       });
-      
+
       updateTrackPosition();
     }
 
@@ -182,7 +182,7 @@ const App = (function() {
   function initAuthPopup() {
     const authBtn = document.getElementById('authBtn');
     const authPopup = document.getElementById('authPopup');
-    
+
     if (!authBtn || !authPopup) {
       console.warn('Элементы формы авторизации не найдены');
       return;
@@ -227,10 +227,10 @@ const App = (function() {
     function closeAuthPopup() {
       authPopup.style.display = 'none';
       document.body.style.overflow = '';
-      
+
       if (loginForm) loginForm.reset();
       if (registerForm) registerForm.reset();
-      
+
       document.querySelectorAll('.error-message').forEach(el => {
         hideError(el);
       });
@@ -240,14 +240,14 @@ const App = (function() {
       tabs.forEach(tab => {
         tab.classList.toggle('active', tab.dataset.tab === tabId);
       });
-      
+
       tabContents.forEach(content => {
         content.classList.toggle('active', content.id === tabId);
       });
     }
 
     authBtn.addEventListener('click', openAuthPopup);
-    
+
     if (closeBtn) {
       closeBtn.addEventListener('click', closeAuthPopup);
     }
@@ -267,31 +267,31 @@ const App = (function() {
     if (loginForm) {
       loginForm.addEventListener('submit', function(e) {
         e.preventDefault();
-        
+
         const email = document.getElementById('loginEmail').value;
         const password = document.getElementById('loginPassword').value;
         const emailError = document.getElementById('loginEmailError');
         const passwordError = document.getElementById('loginPasswordError');
-        
+
         let isValid = true;
-        
+
         if (!validateEmail(email)) {
           showError(emailError, "Введите корректный email");
           isValid = false;
         } else {
           hideError(emailError);
         }
-        
+
         if (!validatePassword(password)) {
           showError(passwordError, "Пароль должен содержать минимум 6 символов");
           isValid = false;
         } else {
           hideError(passwordError);
         }
-        
+
         if (isValid) {
           const user = users.find(u => u.email === email && u.password === password);
-          
+
           if (user) {
             alert(`Добро пожаловать, ${user.name}!`);
             closeAuthPopup();
@@ -305,26 +305,26 @@ const App = (function() {
     if (registerForm) {
       registerForm.addEventListener('submit', function(e) {
         e.preventDefault();
-        
+
         const name = document.getElementById('registerName').value;
         const email = document.getElementById('registerEmail').value;
         const password = document.getElementById('registerPassword').value;
         const confirmPassword = document.getElementById('registerConfirmPassword').value;
-        
+
         const nameError = document.getElementById('registerNameError');
         const emailError = document.getElementById('registerEmailError');
         const passwordError = document.getElementById('registerPasswordError');
         const confirmPasswordError = document.getElementById('registerConfirmPasswordError');
-        
+
         let isValid = true;
-        
+
         if (name.length < 2) {
           showError(nameError, "Имя должно содержать минимум 2 символа");
           isValid = false;
         } else {
           hideError(nameError);
         }
-        
+
         if (!validateEmail(email)) {
           showError(emailError, "Введите корректный email");
           isValid = false;
@@ -334,26 +334,26 @@ const App = (function() {
         } else {
           hideError(emailError);
         }
-        
+
         if (!validatePassword(password)) {
           showError(passwordError, "Пароль должен содержать минимум 6 символов");
           isValid = false;
         } else {
           hideError(passwordError);
         }
-        
+
         if (password !== confirmPassword) {
           showError(confirmPasswordError, "Пароли не совпадают");
           isValid = false;
         } else {
           hideError(confirmPasswordError);
         }
-        
+
         if (isValid) {
           const newUser = { name, email, password };
           users.push(newUser);
           localStorage.setItem('users', JSON.stringify(users));
-          
+
           alert(`Регистрация успешна, ${name}! Теперь вы можете войти.`);
           switchTab('login');
           registerForm.reset();
@@ -362,11 +362,10 @@ const App = (function() {
     }
   }
 
-  // Публичные методы
   return {
     init: init
   };
 })();
 
-// Запуск приложения при загрузке страницы
+// Запуск приложения
 document.addEventListener('DOMContentLoaded', App.init);
