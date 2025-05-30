@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="styles/normalize.css">
     <link rel="stylesheet" href="styles/style.css">
     <link rel="stylesheet" href="styles/preloader.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css">
 </head>
 
 <body>
@@ -208,14 +209,21 @@
         </div>
     </section>
 
-    <section class="prepods">
-        <div class="prepods-container">
-            <h2 class="prepods-title">Наши преподаватели</h2>
-            <div class="prepods-list">
-    <!-- Преподаватели будут добавлены динамически через JavaScript -->
-</div>
-
-    </section>
+<section class="prepods">
+  <div class="prepods-container">
+    <h2 class="prepods-title">Наши преподаватели</h2>
+    
+    <!-- Добавляем контейнер Swiper -->
+    <div class="swiper prepods-swiper">
+      <div class="swiper-wrapper prepods-list">
+        <!-- Карточки будут здесь (рендерятся через JS) -->
+      </div>
+      <!-- Кнопки навигации -->
+      <div class="swiper-button-prev"></div>
+      <div class="swiper-button-next"></div>
+    </div>
+  </div>
+</section>
 
     <section class="prices">
         <div class="prices__container">
@@ -426,12 +434,8 @@
   </div>
 
 </footer>
-        
-    
 <script src="scripts/script.js"></script>
-
-
-
+<script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
 </body>
 
 </html>
