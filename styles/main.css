@@ -103,7 +103,6 @@ body{
 }
 
 .popup {
-    display: none;
     position: fixed;
     top: 200px; /* отступ от верха, можно подогнать */
     left: 50%;
@@ -116,7 +115,7 @@ body{
     background: white;
     padding: 20px 30px;
     border-radius: 10px;
-    width: 90%;
+    width: 40%;
     text-align: center;
 }
 
@@ -438,6 +437,25 @@ body{
   font-size: 16px;
 }
 
+.prepods-swiper {
+  width: 100%;
+  padding: 20px 0;
+  overflow: hidden;
+}
+
+.prepods-list {
+  display: flex; /* Переопределяем grid на flex для Swiper */
+  gap: 5px; /* Сохраняем отступы */
+}
+
+/* Кнопки навигации */
+.swiper-button-prev,
+.swiper-button-next {
+  color: #333;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
 /* Адаптив */
 @media (max-width: 900px) {
   .prepods-list {
@@ -698,24 +716,17 @@ body{
   transform: scale(1.1);
 }
 
-
-
 @media (max-width: 768px) {
   .review-card {
     min-width: 100%;
   }
 }
 
-
 .header__title,
 .footer__text,
 .content__text {
   margin: 10px 0;
 }
-
-
-
-
 
 .main {
   animation: fadeIn 0.8s ease forwards;
