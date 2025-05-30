@@ -1,68 +1,113 @@
-// Основной модуль приложения
+/**
+ * Основной модуль приложения
+ * @namespace App
+ */
 const App = (function() {
-  // Инициализация всех компонентов
+  /**
+   * Инициализация всех компонентов
+   */
   function init() {
+    initPreloader();
     loadTeachers();
     initMainButtons();
     initReviewSlider();
     initAuthPopup();
-    initPreloader();
   }
 
-  // Загрузка данных преподавателей из JSON
+  /**
+   * Загрузка данных преподавателей из JSON
+   */
   function loadTeachers() {
     fetch('data.json')
-      .then(response => response.json())
+      .then(response => {
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
+        return response.json();
+      })
       .then(data => {
         renderTeachers(data);
       })
-      .catch(error => console.error('Ошибка загрузки данных:', error));
+      .catch(error => {
+        console.error('Ошибка загрузки данных:', error);
+        // Убедимся, что предзагрузчик скрыт даже в случае ошибки
+        hidePreloader();
+      });
   }
 
-  // Рендеринг преподавателей
+  /**
+   * Рендеринг преподавателей
+   * @param {Array} teachersData - Данные преподавателей
+   */
   function renderTeachers(teachersData) {
     const teachersContainer = document.querySelector('.prepods-list');
 
     if (!teachersContainer) {
-      console.warn('Контейнер преподавателей не найден');
+      console.error('Контейнер преподавателей не найден!');
       return;
     }
 
-    teachersContainer.innerHTML = '';
-
-    for (const index in teachersData) {
-      const teacher = teachersData[index];
-      const teacherElement = document.createElement('div');
-      teacherElement.className = 'prepod';
-
-      teacherElement.innerHTML = `
-        <img class="prepod-photo" src="${teacher.photo}" width="214" height="214" alt="${teacher.name}">
-        <div class="prepod-info">
-          <h3 class="prepod-name">${teacher.name}</h3>
-          <p class="prepod-desc">Специализация: ${teacher.specialization}</p>
+    teachersContainer.innerHTML = teachersData.map(teacher => `
+      <div class="swiper-slide">
+        <div class="prepod">
+          <img class="prepod-photo" src="${teacher.photo}" width="214" height="214" alt="${teacher.name}">
+          <div class="prepod-info">
+            <h3 class="prepod-name">${teacher.name}</h3>
+            <p class="prepod-desc">Специализация: ${teacher.specialization}</p>
+          </div>
         </div>
-      `;
+      </div>
+    `).join('');
 
-      teachersContainer.appendChild(teacherElement);
-    }
-
+    initSwiper();
     console.log('Преподаватели успешно отображены');
+    hidePreloader(); // Скрываем предзагрузчик после рендеринга преподавателей
   }
 
-  // Инициализация предзагрузчика
-  function initPreloader() {
-    window.addEventListener('load', function() {
-      setTimeout(function() {
-        const preloader = document.querySelector('.preloader');
-        const content = document.querySelector('.content');
-
-        if (preloader) preloader.style.display = 'none';
-        if (content) content.style.display = 'block';
-      }, 2000); // 2 секунды задержки для демонстрации
+  /**
+   * Инициализация Swiper
+   */
+  function initSwiper() {
+    new Swiper('.prepods-swiper', {
+      slidesPerView: 3,
+      spaceBetween: 30,
+      navigation: {
+        nextEl: '.swiper-button-next',
+        prevEl: '.swiper-button-prev',
+      },
+      breakpoints: {
+        320: { slidesPerView: 1 },
+        768: { slidesPerView: 2 },
+        1024: { slidesPerView: 3 }
+      }
     });
   }
 
-  // 2. Главные кнопки и попап "Подробнее"
+  /**
+   * Инициализация предзагрузчика
+   */
+  function initPreloader() {
+    const preloader = document.querySelector('.preloader');
+    const content = document.querySelector('.content');
+
+    if (preloader) preloader.style.display = 'flex';
+    if (content) content.style.display = 'none';
+  }
+
+  /**
+   * Скрытие предзагрузчика
+   */
+  function hidePreloader() {
+    const preloader = document.querySelector('.preloader');
+    const content = document.querySelector('.content');
+
+    if (preloader) preloader.style.display = 'none';
+    if (content) content.style.display = 'block';
+  }
+
+  /**
+   * Инициализация главных кнопок и попап "Подробнее"
+   */
   function initMainButtons() {
     const learnMoreBtn = document.querySelector('.beginning__button__right');
     const signupBtn = document.querySelector('.beginning__button');
@@ -93,6 +138,10 @@ const App = (function() {
       overlay.addEventListener('click', () => closePopup(popup));
     }
 
+    /**
+     * Закрытие попапа
+     * @param {HTMLElement} popupElement - Элемент попапа
+     */
     function closePopup(popupElement) {
       popupElement.style.display = 'none';
       document.body.style.overflow = '';
@@ -100,7 +149,9 @@ const App = (function() {
     }
   }
 
-  // 3. Слайдер отзывов
+  /**
+   * Инициализация слайдера отзывов
+   */
   function initReviewSlider() {
     const track = document.querySelector('.reviews__track');
     const prevBtn = document.getElementById('prevBtn');
@@ -116,6 +167,9 @@ const App = (function() {
     let currentIndex = 0;
     let cardsToShow = getCardsToShowCount();
 
+    /**
+     * Обновление размеров слайдера
+     */
     function updateDimensions() {
       const containerWidth = container.offsetWidth;
       const cardWidth = containerWidth / cardsToShow - 30;
@@ -127,18 +181,28 @@ const App = (function() {
       updateTrackPosition();
     }
 
+    /**
+     * Обновление позиции трека слайдера
+     */
     function updateTrackPosition() {
       const containerWidth = container.offsetWidth;
       track.style.transform = `translateX(-${currentIndex * (containerWidth / cardsToShow)}px)`;
       updateButtons();
     }
 
+    /**
+     * Обновление состояния кнопок
+     */
     function updateButtons() {
       prevBtn.disabled = currentIndex === 0;
       nextBtn.disabled = currentIndex >= cards.length - cardsToShow;
       console.log(`Слайдер: текущая позиция ${currentIndex}, кнопки prev: ${!prevBtn.disabled}, next: ${!nextBtn.disabled}`);
     }
 
+    /**
+     * Получение количества карточек для отображения
+     * @returns {number} Количество карточек для отображения
+     */
     function getCardsToShowCount() {
       if (window.innerWidth < 768) return 1;
       if (window.innerWidth < 992) return 2;
@@ -167,7 +231,9 @@ const App = (function() {
     updateDimensions();
   }
 
-  // 4. Форма авторизации
+  /**
+   * Инициализация попапа авторизации
+   */
   function initAuthPopup() {
     const authBtn = document.getElementById('authBtn');
     const authPopup = document.getElementById('authPopup');
@@ -187,32 +253,57 @@ const App = (function() {
       { name: "Админ", email: "admin@test.com", password: "admin123" }
     ];
 
+    /**
+     * Валидация email
+     * @param {string} email - Email для валидации
+     * @returns {boolean} Результат валидации
+     */
     function validateEmail(email) {
       const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
       return re.test(email);
-    } 
+    }
 
+    /**
+     * Валидация пароля
+     * @param {string} password - Пароль для валидации
+     * @returns {boolean} Результат валидации
+     */
     function validatePassword(password) {
       return password.length >= 6;
     }
 
+    /**
+     * Показ ошибки
+     * @param {HTMLElement} element - Элемент для отображения ошибки
+     * @param {string} message - Сообщение об ошибке
+     */
     function showError(element, message) {
       if (!element) return;
       element.textContent = message;
       element.style.display = 'block';
     }
 
+    /**
+     * Скрытие ошибки
+     * @param {HTMLElement} element - Элемент ошибки
+     */
     function hideError(element) {
       if (!element) return;
       element.textContent = '';
       element.style.display = 'none';
     }
 
+    /**
+     * Открытие попапа авторизации
+     */
     function openAuthPopup() {
       authPopup.style.display = 'flex';
       document.body.style.overflow = 'hidden';
     }
 
+    /**
+     * Закрытие попапа авторизации
+     */
     function closeAuthPopup() {
       authPopup.style.display = 'none';
       document.body.style.overflow = '';
@@ -225,6 +316,10 @@ const App = (function() {
       });
     }
 
+    /**
+     * Переключение табов
+     * @param {string} tabId - Идентификатор таба
+     */
     function switchTab(tabId) {
       tabs.forEach(tab => {
         tab.classList.toggle('active', tab.dataset.tab === tabId);
@@ -282,6 +377,7 @@ const App = (function() {
           const user = users.find(u => u.email === email && u.password === password);
 
           if (user) {
+            localStorage.setItem('currentUser', JSON.stringify(user));
             alert(`Добро пожаловать, ${user.name}!`);
             closeAuthPopup();
           } else {
@@ -342,6 +438,7 @@ const App = (function() {
           const newUser = { name, email, password };
           users.push(newUser);
           localStorage.setItem('users', JSON.stringify(users));
+          localStorage.setItem('currentUser', JSON.stringify(newUser));
 
           alert(`Регистрация успешна, ${name}! Теперь вы можете войти.`);
           switchTab('login');
