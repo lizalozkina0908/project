@@ -1,49 +1,26 @@
 // Основной модуль приложения
 const App = (function() {
-  // Данные преподавателей
-  const teachersData = [
-    {
-      name: 'Преподаватель 1',
-      specialization: 'подготовка к ОГЭ',
-      photo: 'images/boy.jpg'
-    },
-    {
-      name: 'Преподаватель 2',
-      specialization: 'подготовка к ЕГЭ',
-      photo: 'images/boy2.png'
-    },
-    {
-      name: 'Преподаватель 3',
-      specialization: 'ОГЭ и ЕГЭ',
-      photo: 'images/boy4.png'
-    },
-    {
-      name: 'Преподаватель 4',
-      specialization: 'Эксперт ЕГЭ',
-      photo: 'images/boys3.png'
-    },
-    {
-      name: 'Преподаватель 5',
-      specialization: 'Эксперт ОГЭ',
-      photo: 'images/girl.png'
-    },
-    {
-      name: 'Преподаватель 6',
-      specialization: 'углубленная подготовка',
-      photo: 'images/girl2.png'
-    }
-  ];
-
   // Инициализация всех компонентов
   function init() {
-    renderTeachers();
+    loadTeachers();
     initMainButtons();
     initReviewSlider();
     initAuthPopup();
+    initPreloader();
   }
 
-  // 1. Рендеринг преподавателей с использованием for...in
-  function renderTeachers() {
+  // Загрузка данных преподавателей из JSON
+  function loadTeachers() {
+    fetch('data.json')
+      .then(response => response.json())
+      .then(data => {
+        renderTeachers(data);
+      })
+      .catch(error => console.error('Ошибка загрузки данных:', error));
+  }
+
+  // Рендеринг преподавателей
+  function renderTeachers(teachersData) {
     const teachersContainer = document.querySelector('.prepods-list');
 
     if (!teachersContainer) {
@@ -53,7 +30,6 @@ const App = (function() {
 
     teachersContainer.innerHTML = '';
 
-    // Используем for...in для перебора данных преподавателей
     for (const index in teachersData) {
       const teacher = teachersData[index];
       const teacherElement = document.createElement('div');
@@ -70,7 +46,20 @@ const App = (function() {
       teachersContainer.appendChild(teacherElement);
     }
 
-    console.log('Преподаватели успешно отображены (использован for...in)');
+    console.log('Преподаватели успешно отображены');
+  }
+
+  // Инициализация предзагрузчика
+  function initPreloader() {
+    window.addEventListener('load', function() {
+      setTimeout(function() {
+        const preloader = document.querySelector('.preloader');
+        const content = document.querySelector('.content');
+
+        if (preloader) preloader.style.display = 'none';
+        if (content) content.style.display = 'block';
+      }, 2000); // 2 секунды задержки для демонстрации
+    });
   }
 
   // 2. Главные кнопки и попап "Подробнее"
@@ -201,7 +190,7 @@ const App = (function() {
     function validateEmail(email) {
       const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
       return re.test(email);
-    }
+    } 
 
     function validatePassword(password) {
       return password.length >= 6;
