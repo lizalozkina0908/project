@@ -1,0 +1,106 @@
+/* Базовые стили */
+.prepods {
+  padding: 40px 0;
+  background: #fff;
+}
+
+.prepods-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 15px;
+}
+
+.prepods-title {
+  text-align: center;
+  font-size: 32px;
+  margin-bottom: 50px;
+  color: #333;
+}
+
+/* Сетка преподавателей */
+.prepods-list {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 30px;
+}
+
+/* Карточка преподавателя */
+.prepod {
+  text-align: center;
+}
+
+.prepod-photo {
+  border-radius: 50%;
+  border: 3px solid #f0f0f0;
+  margin-bottom: 15px;
+}
+
+.prepod-name {
+  font-size: 20px;
+  margin-bottom: 5px;
+  color: #222;
+}
+
+.prepod-desc {
+  color: #666;
+  font-size: 16px;
+}
+
+.prepods-swiper {
+  width: 100%;
+  padding: 20px 0;
+  overflow: hidden;
+}
+
+.prepods-list {
+  display: flex; /* Переопределяем grid на flex для Swiper */
+  gap: 5px; /* Сохраняем отступы */
+}
+
+.prepods {
+  padding: 40px 0;
+  background: #fff;
+}
+
+.prepods-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 15px;
+}
+
+.prepods-title {
+  text-align: center;
+  font-size: 32px;
+  margin-bottom: 50px;
+  color: #333;
+}
+
+.prepods-swiper {
+  width: 100%;
+  padding: 20px 0;
+  overflow: hidden;
+}
+
+.prepods-list {
+  display: flex;
+  gap: 5px;
+}
+
+.swiper-button-prev,
+.swiper-button-next {
+  color: #333;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+@media (max-width: 900px) {
+  .prepods-list {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 600px) {
+  .prepods-list {
+    grid-template-columns: 1fr;
+  }
+}
