@@ -1,0 +1,32 @@
+[
+  {
+    "name": "Преподаватель 1",
+    "specialization": "подготовка к ОГЭ",
+    "photo": "images/boy.jpg"
+  },
+  {
+    "name": "Преподаватель 2",
+    "specialization": "подготовка к ЕГЭ",
+    "photo": "images/boy2.png"
+  },
+  {
+    "name": "Преподаватель 3",
+    "specialization": "ОГЭ и ЕГЭ",
+    "photo": "images/boy4.png"
+  },
+  {
+    "name": "Преподаватель 4",
+    "specialization": "Эксперт ЕГЭ",
+    "photo": "images/boys3.png"
+  },
+  {
+    "name": "Преподаватель 5",
+    "specialization": "Эксперт ОГЭ",
+    "photo": "images/girl.png"
+  },
+  {
+    "name": "Преподаватель 6",
+    "specialization": "углубленная подготовка",
+    "photo": "images/girl2.png"
+  }
+]
