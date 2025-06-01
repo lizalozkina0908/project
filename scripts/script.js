@@ -456,5 +456,39 @@ function hidePreloader() {
   };
 })();
 
+ // Текущие цены (могут загружаться с сервера)
+ const currentPrices = {
+  base: 1500,      // ОГЭ (базовый)
+  standard: 2000,  // ЕГЭ (стандарт)
+  intensive: 2500  // ЕГЭ (интенсив)
+};
+
+// Форматирование цены для отображения
+function formatPrice(price) {
+  return new Intl.NumberFormat('ru-RU').format(price) + ' ₽/час';
+}
+
+// Обновление цен на странице
+function updatePrices() {
+  document.querySelectorAll('.js-dynamic-price').forEach(priceElement => {
+      const tariffType = priceElement.dataset.tariff;
+      priceElement.textContent = formatPrice(currentPrices[tariffType]);
+  });
+}
+
+// Инициализация при загрузке страницы
+document.addEventListener('DOMContentLoaded', updatePrices);
+
+// Пример: обновление цен через 5 секунд (имитация)
+setTimeout(() => {
+  // Новые цены (например, после загрузки с сервера)
+  currentPrices.base = 1700;
+  currentPrices.standard = 2200;
+  currentPrices.intensive = 2700;
+  
+  updatePrices(); // Применяем изменения
+  console.log('Цены обновлены!');
+}, 5000);
+
 // Запуск приложения
 document.addEventListener('DOMContentLoaded', App.init);
