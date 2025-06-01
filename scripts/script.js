@@ -84,26 +84,29 @@ const App = (function() {
   }
 
   /**
-   * Инициализация предзагрузчика
-   */
-  function initPreloader() {
-    const preloader = document.querySelector('.preloader');
-    const content = document.querySelector('.content');
+ * Инициализация предзагрузчика
+ */
+function initPreloader() {
+  const preloader = document.querySelector('.preloader');
+  const content = document.querySelector('.content');
 
-    if (preloader) preloader.style.display = 'flex';
-    if (content) content.style.display = 'none';
-  }
+  if (preloader) preloader.style.display = 'flex';
+  if (content) content.style.display = 'none';
+}
 
-  /**
-   * Скрытие предзагрузчика
-   */
-  function hidePreloader() {
-    const preloader = document.querySelector('.preloader');
-    const content = document.querySelector('.content');
+/**
+ * Скрытие предзагрузчика с задержкой
+ */
+function hidePreloader() {
+  const preloader = document.querySelector('.preloader');
+  const content = document.querySelector('.content');
 
+  // Добавляем задержку 1 секунду (1000 миллисекунд) перед скрытием
+  setTimeout(() => {
     if (preloader) preloader.style.display = 'none';
     if (content) content.style.display = 'block';
-  }
+  }, 1000); // Можно увеличить это число для большей задержки
+}
 
   /**
    * Инициализация главных кнопок и попап "Подробнее"
